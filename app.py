@@ -5,11 +5,11 @@ import gradio as gr
 import matplotlib.pyplot as plt
 import random
 
-NUM_OF_ELEMENTS = 50
+NUM_OF_ELEMENTS = 10
 
 
 def gen_set(state_data: dict):
-    data = sorted([random.randint(1, 101) for _ in range(NUM_OF_ELEMENTS)])
+    data = sorted([random.randint(1, 100) for _ in range(NUM_OF_ELEMENTS)])
     state_data.update(
         {"data": data, "target": None, "low": 0, "high": len(data) - 1, "mid": None}
     )
@@ -55,7 +55,7 @@ def run_step(state_data, text_box_target):
     low, high = state_data["low"], state_data["high"]
 
     # algorithm implementation
-    
+
     state_data["mid"] = mid = (high + low) // 2
 
     if not low <= high:
@@ -80,12 +80,23 @@ def build_ui():
         state_data = gr.State(
             {"data": None, "target": None, "low": 0, "high": None, "mid": None}
         )
-        gr.Markdown("## Binary Search Visualization")
+        gr.Markdown(
+            """
+        ## Binary Search Visualization
+        1. Select Generate Numbers
+        2. Input the number you want to search for
+        2. Click on step until the number is found
+        """
+        )
         figure = gr.Plot()
-        step_btn = gr.Button("Step", variant="primary")
-        gen_set_btn = gr.Button("Generate numbers", variant="secondary")
+
+        with gr.Row():
+            step_btn = gr.Button("Step", variant="primary")
+            gen_set_btn = gr.Button("Generate numbers", variant="secondary")
+
         gen_set_text = gr.Textbox(label="Generated List To Search")
         target = gr.Number(precision=0, value=0)
+        # audio_out = gr.Audio(label="sound_effect", autoplay=True)
         output_text = gr.Textbox(label="")
 
         gen_set_btn.click(gen_set, inputs=[state_data], outputs=gen_set_text)
