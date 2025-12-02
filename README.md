@@ -1,3 +1,10 @@
+---
+title: Binary Search Visualization
+sdk_version: "{{sdkVersion}}"
+app_file: app.py
+pinned: false
+---
+
 # CISC 121 Final Project
 The binary search algorithm implemented in an interactive web app using Gradio.
 
@@ -33,3 +40,4 @@ The user only sees:
 - Install all required packages using `pip install -r requirements.txt`
 - Then run the app using `python app.py`
 - Navigate to the url printed out
+
