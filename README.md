@@ -10,7 +10,7 @@ pinned: false
 The binary search algorithm implemented in an interactive web app using Gradio.
 
 ## Project showcase
-![Showcase gif](example.gif)
+![Showcase gif](showcase.gif)
 
 ## Project Design
 ### Decomposition
