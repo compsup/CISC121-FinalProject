@@ -5,7 +5,7 @@ import gradio as gr
 import matplotlib.pyplot as plt
 import random
 
-NUM_OF_ELEMENTS = 10
+NUM_OF_ELEMENTS = 15
 
 
 def gen_set(state_data: dict):
@@ -57,7 +57,7 @@ def run_step(state_data, text_box_target):
     # algorithm implementation
 
     state_data["mid"] = mid = (high + low) // 2
-
+    # edge case if user does not enter a number that exists in the generated array
     if not low <= high:
         return gen_plot(state_data, -1), f"Number does not exist in array!"
 
@@ -74,17 +74,18 @@ def run_step(state_data, text_box_target):
         state_data["high"] = mid - 1
     return plot, f"Low: {low} High: {high} Mid: {mid}"
 
-def build_ui():
-    with gr.Blocks(title="Binary Search") as ui:
+if __name__ == "__main__":
+    with gr.Blocks(title="Binary Search") as demo:
+        # state_data holds per-session data
         state_data = gr.State(
             {"data": None, "target": None, "low": 0, "high": None, "mid": None}
         )
         gr.Markdown(
             """
         ## Binary Search Visualization
-        1. Select Generate Numbers
+        1. Select **Generate Numbers**
         2. Input the number you want to search for
-        2. Click on step until the number is found
+        2. Click on **step** until the number is found
         """
         )
         figure = gr.Plot()
@@ -95,14 +96,10 @@ def build_ui():
         
         gen_set_text = gr.Textbox(label="Generated List To Search")
         target = gr.Number(precision=0, value=0)
-        output_text = gr.Textbox(label="")
+        output_text = gr.Textbox(label="Output")
 
         gen_set_btn.click(gen_set, inputs=[state_data], outputs=gen_set_text)
         step_btn.click(
             run_step, inputs=[state_data, target], outputs=[figure, output_text]
         )
-    ui.launch()
-
-
-if __name__ == "__main__":
-    build_ui()
+    demo.launch()
